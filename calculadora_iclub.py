@@ -48,11 +48,25 @@ st.markdown("""
     .col {
         flex: 1;
         padding: 0 10px;
+        position: relative;
     }
     .copy-input {
         width: 100%;
         font-size: 14px;
         padding: 4px;
+    }
+    .copy-btn {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: #2e7d32;
+        color: #fff;
+        border: none;
+        padding: 4px 8px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 12px;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -91,14 +105,10 @@ if valor_total > 0:
         st.markdown(f"""
         <div class='row'>
             <div class='col'>{parcelas}x</div>
-            <div class='col'><input class='copy-input' type='text' value='{texto_copia}' id='input_{parcelas}' readonly></div>
+            <div class='col'>
+                <input class='copy-input' type='text' value='{texto_copia}' id='input_{parcelas}' readonly>
+                <button class='copy-btn' onclick="navigator.clipboard.writeText(document.getElementById('input_{parcelas}').value)">Copiar</button>
+            </div>
             <div class='col'>{valor_formatado}</div>
         </div>
-        <script>
-        const input{parcelas} = document.getElementById('input_{parcelas}');
-        input{parcelas}.addEventListener('click', function() {{
-            input{parcelas}.select();
-            document.execCommand('copy');
-        }});
-        </script>
         """, unsafe_allow_html=True)
