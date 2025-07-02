@@ -110,14 +110,14 @@ if valor_total is not None:
             if parcelas == 0:
                 texto_copia = f"{parcela_formatada}"
             else:
-                texto_copia = f"{parcelas}x {parcela_formatada}"f"{parcela_formatada}" if parcelas == 0 else f"{parcelas}x {parcela_formatada}"
+                texto_copia = f"{parcelas}x {parcela_formatada}"
 
         linha_html = f'''
         <div class='row'>
             <div class='col'>{'Débito' if parcelas == 0 else f'{parcelas}x'}</div>
             <div class='col'>
                 <input class='copy-input' type='text' value='{texto_copia}' id='input_{parcelas}' readonly>
-                <button class='copy-btn' onclick="navigator.clipboard.writeText(document.getElementById('input_{parcelas}').value)">Copiar</button>
+                <button class='copy-btn' onclick="navigator.clipboard.writeText(document.getElementById('input_{parcelas}').value); this.innerText='Copiado'; setTimeout(() => this.innerText='Copiar', 1500);">Copiar</button>
             </div>
             <div class='col'>{valor_formatado}</div>
         </div>
