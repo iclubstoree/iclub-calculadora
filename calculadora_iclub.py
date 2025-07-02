@@ -104,9 +104,15 @@ if valor_total:
         else:
             texto_copia = f"{parcelas}x {parcela_formatada}"
 
-        st.markdown(f"""
+        linha_html = f'''
         <div class='row'>
             <div class='col'>{parcelas}x</div>
             <div class='col'>
                 <input class='copy-input' type='text' value='{texto_copia}' id='input_{parcelas}' readonly>
-                <button class='copy-btn' onclick="navigator.clipboard.writeText(document
+                <button class='copy-btn' onclick="navigator.clipboard.writeText(document.getElementById('input_{parcelas}').value)">Copiar</button>
+            </div>
+            <div class='col'>{valor_formatado}</div>
+        </div>
+        '''
+
+        st.markdown(linha_html, unsafe_allow_html=True)
