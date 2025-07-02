@@ -1,6 +1,5 @@
 # calculadora_iclub.py
 import streamlit as st
-import pyperclip
 
 # Tabela de taxas por parcela
 taxas = {
@@ -34,6 +33,27 @@ st.markdown("""
         border-radius: 10px;
         box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     }
+    .header-row {
+        display: flex;
+        font-weight: bold;
+        padding: 8px 0;
+        border-bottom: 1px solid #ccc;
+    }
+    .row {
+        display: flex;
+        align-items: center;
+        padding: 8px 0;
+        border-bottom: 1px solid #eee;
+    }
+    .col {
+        flex: 1;
+        padding: 0 10px;
+    }
+    .copy-input {
+        width: 100%;
+        font-size: 14px;
+        padding: 4px;
+    }
     </style>
 """, unsafe_allow_html=True)
 
@@ -47,6 +67,13 @@ st.markdown("</div>", unsafe_allow_html=True)
 if valor_total > 0:
     restante = max(valor_total - valor_entrada, 0)
     st.markdown("<div class='subtitle'>Opções de Pagamento</div>", unsafe_allow_html=True)
+    st.markdown("""
+    <div class='header-row'>
+        <div class='col'>Quantidade</div>
+        <div class='col'>Valor da Parcela</div>
+        <div class='col'>Total</div>
+    </div>
+    """, unsafe_allow_html=True)
 
     for parcelas, taxa in taxas.items():
         valor_com_taxa = restante * (1 + taxa / 100)
@@ -61,6 +88,17 @@ if valor_total > 0:
         else:
             texto_copia = f"{parcelas}x {parcela_formatada}"
 
-        with st.container():
-            st.write(f"**{texto_copia} - Total: {valor_formatado}**")
-            st.text_input("Copie o texto abaixo:", value=texto_copia, key=f"copia_{parcelas}", disabled=False)
+        st.markdown(f"""
+        <div class='row'>
+            <div class='col'>{parcelas}x</div>
+            <div class='col'><input class='copy-input' type='text' value='{texto_copia}' id='input_{parcelas}' readonly></div>
+            <div class='col'>{valor_formatado}</div>
+        </div>
+        <script>
+        const input{parcelas} = document.getElementById('input_{parcelas}');
+        input{parcelas}.addEventListener('click', function() {{
+            input{parcelas}.select();
+            document.execCommand('copy');
+        }});
+        </script>
+        """, unsafe_allow_html=True)
