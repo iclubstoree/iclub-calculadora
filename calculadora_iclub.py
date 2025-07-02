@@ -69,7 +69,8 @@ st.markdown("""
         cursor: pointer;
         font-size: 12px;
     }
-    .copy-btn:active { background-color: #1b5e20; }</style>
+    .copy-btn:active { background-color: #1b5e20; }
+    </style>
 """, unsafe_allow_html=True)
 
 st.markdown("<div class='title'>Simulador de Taxas</div>", unsafe_allow_html=True)
@@ -82,7 +83,7 @@ if valor_entrada is None:
 st.markdown("</div>", unsafe_allow_html=True)
 
 if valor_total is not None:
-    restante = max(valor_total - (valor_entrada or 0), 0)
+    restante = max(valor_total - valor_entrada, 0)
     st.markdown("<div class='subtitle'>Opções de Pagamento</div>", unsafe_allow_html=True)
     st.markdown("""
     <div class='header-row'>
@@ -94,12 +95,12 @@ if valor_total is not None:
 
     for parcelas, taxa in sorted(taxas.items()):
         valor_com_taxa = restante * (1 + taxa / 100)
-        valor_total_final = valor_com_taxa + (valor_entrada or 0)
+        valor_total_final = valor_com_taxa + valor_entrada
         parcela = valor_com_taxa if parcelas == 0 else valor_com_taxa / parcelas
 
         valor_formatado = f"R$ {valor_total_final:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
         parcela_formatada = f"R$ {parcela:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
-        entrada_formatada = f"R$ {(valor_entrada or 0):,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+        entrada_formatada = f"R$ {valor_entrada:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
 
         if valor_entrada > 0:
             if parcelas == 0:
@@ -117,7 +118,7 @@ if valor_total is not None:
             <div class='col'>{'Débito' if parcelas == 0 else f'{parcelas}x'}</div>
             <div class='col'>
                 <input class='copy-input' type='text' value='{texto_copia}' id='input_{parcelas}' readonly>
-                <button class='copy-btn' onclick=\"navigator.clipboard.writeText(document.getElementById('input_{parcelas}').value); this.innerText='Copiado'; setTimeout(() => this.innerText='Copiar', 1500);\">Copiar</button>
+                <button class='copy-btn' onclick="navigator.clipboard.writeText(document.getElementById('input_{parcelas}').value); this.innerText='Copiado'; setTimeout(() => {{ this.innerText='Copiar'; }}, 1500);">Copiar</button>
             </div>
             <div class='col'>{valor_formatado}</div>
         </div>
