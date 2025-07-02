@@ -76,7 +76,9 @@ st.markdown("<div class='title'>Simulador de Taxas</div>", unsafe_allow_html=Tru
 
 st.markdown("<div class='input-box'>", unsafe_allow_html=True)
 valor_total = st.number_input("Digite o valor da compra:", min_value=0.0, format="%.2f", value=None, placeholder="R$ 0,00")
-valor_entrada = st.number_input("Digite o valor da entrada (opcional):", min_value=0.0, format="%.2f", value=0.0, placeholder="R$ 0,00")
+valor_entrada = st.number_input("Digite o valor da entrada (opcional):", min_value=0.0, format="%.2f", value=None, placeholder="R$ 0,00")
+if valor_entrada is None:
+    valor_entrada = 0.0
 st.markdown("</div>", unsafe_allow_html=True)
 
 if valor_total is not None:
@@ -99,17 +101,13 @@ if valor_total is not None:
         parcela_formatada = f"R$ {parcela:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
         entrada_formatada = f"R$ {(valor_entrada or 0):,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
 
-        # Corrigido: copiar valor da parcela corretamente
         if valor_entrada > 0:
-            if parcelas == 0:
-                texto_copia = f"{entrada_formatada} + {parcela_formatada}"
-            else:
+            texto_copia = f"{entrada_formatada} + {parcela_formatada}" if parcelas == 0 else f"{entrada_formatada} + {parcelas}x {parcela_formatada}"
+        else:
+            texto_copia = f"{parcela_formatada}" if parcelas == 0 else f"{parcelas}x {parcela_formatada}"f"{parcela_formatada}" if parcelas == 0 else f"{parcelas}x {parcela_formatada}"
                 texto_copia = f"{entrada_formatada} + {parcelas}x {parcela_formatada}"
         else:
-            if parcelas == 0:
-                texto_copia = f"{parcela_formatada}"
-            else:
-                texto_copia = f"{parcelas}x {parcela_formatada}"
+            texto_copia = f"{parcela_formatada}" if parcelas == 0 else f"{parcelas}x {parcela_formatada}"
 
         linha_html = f'''
         <div class='row'>
