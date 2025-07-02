@@ -1,4 +1,4 @@
-# calculadora_iclub.py
+  c# calculadora_iclub.py
 import streamlit as st
 
 # Tabela de taxas por parcela
@@ -71,11 +71,12 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-st.markdown("<div class='title'>Simulador de Parcelamento</div>", unsafe_allow_html=True)
+st.markdown("<div class='title'>Simulador de Taxas</div>", unsafe_allow_html=True)
 
 st.markdown("<div class='input-box'>", unsafe_allow_html=True)
-valor_total = st.number_input("Digite o valor total da compra:", min_value=0.0, format="%.2f")
-valor_entrada = st.number_input("Digite o valor da entrada (opcional):", min_value=0.0, format="%.2f")
+st.markdown("<p style='font-weight: bold; font-size: 16px;'>Digite o valor da compra</p>", unsafe_allow_html=True)
+"Digite o valor total da compra:", min_value=0.0, format="%.2f", value=None, placeholder="Ex: 1200.00")
+valor_entrada = st.number_input("Digite o valor da entrada (opcional):", min_value=0.0, format="%.2f", value=None, placeholder="Ex: 200.00")
 st.markdown("</div>", unsafe_allow_html=True)
 
 if valor_total > 0:
@@ -91,9 +92,10 @@ if valor_total > 0:
 
     for parcelas, taxa in taxas.items():
         valor_com_taxa = restante * (1 + taxa / 100)
+        valor_total_final = valor_com_taxa + valor_entrada
         parcela = valor_com_taxa / parcelas
 
-        valor_formatado = f"R$ {valor_com_taxa:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+        valor_formatado = f"R$ {valor_total_final:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
         parcela_formatada = f"R$ {parcela:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
         entrada_formatada = f"R$ {valor_entrada:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
 
