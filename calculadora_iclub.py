@@ -1,5 +1,6 @@
 # calculadora_iclub.py
 import streamlit as st
+import pyperclip
 
 # Tabela de taxas por parcela
 taxas = {
@@ -58,4 +59,8 @@ if valor_total > 0:
         if valor_entrada > 0:
             texto_copia = f"{entrada_formatada} + {parcelas}x {parcela_formatada}"
         else:
-            texto_copia = f
+            texto_copia = f"{parcelas}x {parcela_formatada}"
+
+        with st.container():
+            st.write(f"**{texto_copia} - Total: {valor_formatado}**")
+            st.text_input("Copie o texto abaixo:", value=texto_copia, key=f"copia_{parcelas}", disabled=False)
