@@ -76,7 +76,7 @@ st.markdown("<div class='title'>Simulador de Taxas</div>", unsafe_allow_html=Tru
 
 st.markdown("<div class='input-box'>", unsafe_allow_html=True)
 valor_total = st.number_input("Digite o valor da compra:", min_value=0.0, format="%.2f", value=None, placeholder="R$ 0,00")
-valor_entrada = st.number_input("Digite o valor da entrada (opcional):", min_value=0.0, format="%.2f", value=None, placeholder="R$ 0,00")
+valor_entrada = st.number_input("Digite o valor da entrada (opcional):", min_value=0.0, format="%.2f", value=0.0, placeholder="R$ 0,00")
 st.markdown("</div>", unsafe_allow_html=True)
 
 if valor_total is not None:
