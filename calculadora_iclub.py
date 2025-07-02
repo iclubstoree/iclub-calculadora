@@ -92,12 +92,12 @@ if valor_total is not None:
 
     for parcelas, taxa in sorted(taxas.items()):
         valor_com_taxa = restante * (1 + taxa / 100)
-        valor_total_final = valor_com_taxa + valor_entrada
+        valor_total_final = valor_com_taxa + (valor_entrada or 0)
         parcela = valor_com_taxa if parcelas == 0 else valor_com_taxa / parcelas
 
         valor_formatado = f"R$ {valor_total_final:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
         parcela_formatada = f"R$ {parcela:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
-        entrada_formatada = f"R$ {valor_entrada:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+        entrada_formatada = f"R$ {(valor_entrada or 0):,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
 
         if valor_entrada > 0:
             if parcelas == 0:
