@@ -3,6 +3,7 @@ import streamlit as st
 
 # Tabela de taxas por parcela
 taxas = {
+    0: 1.55,
     1: 4.50, 2: 5.00, 3: 5.50, 4: 5.80, 5: 6.20,
     6: 6.80, 7: 7.20, 8: 7.80, 9: 8.40, 10: 8.95,
     11: 9.49, 12: 9.99, 13: 12.34, 14: 12.74,
@@ -78,7 +79,7 @@ valor_total = st.number_input("Digite o valor da compra:", min_value=0.0, format
 valor_entrada = st.number_input("Digite o valor da entrada (opcional):", min_value=0.0, format="%.2f", value=None, placeholder="R$ 0,00")
 st.markdown("</div>", unsafe_allow_html=True)
 
-if valor_total is not None and valor_entrada is not None:
+if valor_total is not None:
     restante = max(valor_total - valor_entrada, 0)
     st.markdown("<div class='subtitle'>Opções de Pagamento</div>", unsafe_allow_html=True)
     st.markdown("""
@@ -89,7 +90,7 @@ if valor_total is not None and valor_entrada is not None:
     </div>
     """, unsafe_allow_html=True)
 
-    for parcelas, taxa in taxas.items():
+    for parcelas, taxa in sorted(taxas.items()):
         valor_com_taxa = restante * (1 + taxa / 100)
         valor_total_final = valor_com_taxa + valor_entrada
         parcela = valor_com_taxa / parcelas
@@ -99,13 +100,19 @@ if valor_total is not None and valor_entrada is not None:
         entrada_formatada = f"R$ {valor_entrada:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
 
         if valor_entrada > 0:
-            texto_copia = f"{entrada_formatada} + {parcelas}x {parcela_formatada}"
+            if parcelas == 0:
+                texto_copia = f"{entrada_formatada} + Débito"
+            else:
+                texto_copia = f"{entrada_formatada} + {parcelas}x {parcela_formatada}"
         else:
-            texto_copia = f"{parcelas}x {parcela_formatada}"
+            if parcelas == 0:
+                texto_copia = "Débito"
+            else:
+                texto_copia = f"{parcelas}x {parcela_formatada}"
 
         linha_html = f'''
         <div class='row'>
-            <div class='col'>{parcelas}x</div>
+            <div class='col'>{'Débito' if parcelas == 0 else f'{parcelas}x'}</div>
             <div class='col'>
                 <input class='copy-input' type='text' value='{texto_copia}' id='input_{parcelas}' readonly>
                 <button class='copy-btn' onclick="navigator.clipboard.writeText(document.getElementById('input_{parcelas}').value)">Copiar</button>
