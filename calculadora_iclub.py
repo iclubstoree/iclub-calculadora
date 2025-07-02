@@ -116,7 +116,7 @@ if valor_total is not None:
         <div class='row'>
             <div class='col'>{'Débito' if parcelas == 0 else f'{parcelas}x'}</div>
             <div class='col'>
-                <input class='copy-input' type='text' value='{texto_copia}' id='input_{parcelas}' readonly>
+                <textarea id='input_{parcelas}' class='copy-input' readonly>{texto_copia}</textarea>
                 <button class='copy-btn' onclick="navigator.clipboard.writeText(document.getElementById('input_{parcelas}').value); this.innerText='Copiado'; setTimeout(function() {{ this.innerText='Copiar'; }}.bind(this), 1500);">Copiar</button>
             </div>
             <div class='col'>{valor_formatado}</div>
