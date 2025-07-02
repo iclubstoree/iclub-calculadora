@@ -80,7 +80,7 @@ valor_entrada = st.number_input("Digite o valor da entrada (opcional):", min_val
 st.markdown("</div>", unsafe_allow_html=True)
 
 if valor_total is not None:
-    restante = max(valor_total - valor_entrada, 0)
+    restante = max(valor_total - (valor_entrada or 0), 0)
     st.markdown("<div class='subtitle'>Opções de Pagamento</div>", unsafe_allow_html=True)
     st.markdown("""
     <div class='header-row'>
