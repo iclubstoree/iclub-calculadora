@@ -93,7 +93,7 @@ if valor_total is not None:
     for parcelas, taxa in sorted(taxas.items()):
         valor_com_taxa = restante * (1 + taxa / 100)
         valor_total_final = valor_com_taxa + valor_entrada
-        parcela = valor_com_taxa / parcelas
+        parcela = valor_com_taxa if parcelas == 0 else valor_com_taxa / parcelas
 
         valor_formatado = f"R$ {valor_total_final:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
         parcela_formatada = f"R$ {parcela:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
