@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Simulador de Taxas</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Simulador de Taxas</h1>
+
+        <form method="POST">
+            <label>Digite o valor da compra:</label>
+            <input type="text" name="valor_total" placeholder="R$ 0,00" required>
+
+            <label>Digite o valor da entrada (opcional):</label>
+            <input type="text" name="valor_entrada" placeholder="R$ 0,00">
+
+            <button type="submit">Calcular</button>
+        </form>
+
+        {% if parcelas %}
+        <h2>Opções de Pagamento</h2>
+        <div class="tabela">
+            <div class="tabela-header">
+                <div>Quantidade</div>
+                <div>Parcela</div>
+                <div>Total</div>
+            </div>
+            {% for item in parcelas %}
+            <div class="tabela-linha">
+                <div>{{ item.qtd }}</div>
+                <div class="parcela-copia">
+                    <input type="text" id="texto_{{ item.id }}" value="{{ item.texto }}" readonly>
+                    <button onclick="copiarTexto('{{ item.id }}', this)">Copiar</button>
+                </div>
+                <div>{{ item.total }}</div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+
+<script>
+function copiarTexto(id, botao) {
+    var input = document.getElementById("texto_" + id);
+    input.select();
+    input.setSelectionRange(0, 99999);
+    document.execCommand("copy");
+
+    botao.innerText = "Copiado";
+    setTimeout(() => {
+        botao.innerText = "Copiar";
+    }, 1500);
+}
+</script>
+</body>
+</html>
