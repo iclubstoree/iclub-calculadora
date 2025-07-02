@@ -78,7 +78,7 @@ valor_total = st.number_input("Digite o valor da compra:", min_value=0.0, format
 valor_entrada = st.number_input("Digite o valor da entrada (opcional):", min_value=0.0, format="%.2f", value=None, placeholder="R$ 0,00")
 st.markdown("</div>", unsafe_allow_html=True)
 
-if valor_total:
+if valor_total is not None and valor_entrada is not None:
     restante = max(valor_total - valor_entrada, 0)
     st.markdown("<div class='subtitle'>Opções de Pagamento</div>", unsafe_allow_html=True)
     st.markdown("""
