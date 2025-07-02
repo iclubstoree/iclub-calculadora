@@ -10,18 +10,42 @@ taxas = {
     19: 14.74, 20: 15.14, 21: 15.54
 }
 
-# Configurações da página
-st.set_page_config(page_title="Calculadora de Parcelas iClub", layout="centered")
-st.markdown("<h1 style='text-align: center; color: #e60000;'>Calculadora de Parcelamento - iClub</h1>", unsafe_allow_html=True)
+st.set_page_config(page_title="Calculadora de Parcelamento", layout="centered")
 
-# Entradas do usuário
-valor_total = st.number_input("Valor total do produto (sem entrada)", min_value=0.0, format="%.2f", step=10.0)
-valor_entrada = st.number_input("Valor da entrada (opcional)", min_value=0.0, format="%.2f", step=10.0)
+# Estilo customizado com CSS
+st.markdown("""
+    <style>
+    .title {
+        text-align: center;
+        font-size: 28px;
+        color: #000;
+        margin-bottom: 10px;
+        font-weight: bold;
+    }
+    .subtitle {
+        font-size: 20px;
+        margin-top: 30px;
+        color: #000;
+    }
+    .input-box {
+        background-color: #fff;
+        padding: 10px;
+        border-radius: 10px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    </style>
+""", unsafe_allow_html=True)
 
-# Lógica de cálculo e exibição
+st.markdown("<div class='title'>Simulador de Parcelamento</div>", unsafe_allow_html=True)
+
+st.markdown("<div class='input-box'>", unsafe_allow_html=True)
+valor_total = st.number_input("Digite o valor total da compra:", min_value=0.0, format="%.2f")
+valor_entrada = st.number_input("Digite o valor da entrada (opcional):", min_value=0.0, format="%.2f")
+st.markdown("</div>", unsafe_allow_html=True)
+
 if valor_total > 0:
     restante = max(valor_total - valor_entrada, 0)
-    st.markdown("### Simulação de Parcelas")
+    st.markdown("<div class='subtitle'>Opções de Pagamento</div>", unsafe_allow_html=True)
 
     for parcelas, taxa in taxas.items():
         valor_com_taxa = restante * (1 + taxa / 100)
@@ -32,16 +56,6 @@ if valor_total > 0:
         entrada_formatada = f"R$ {valor_entrada:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
 
         if valor_entrada > 0:
-            texto_copia = f"{entrada_formatada} + {parcelas}x de {parcela_formatada}"
+            texto_copia = f"{entrada_formatada} + {parcelas}x {parcela_formatada}"
         else:
-            texto_copia = f"{parcelas}x de {parcela_formatada}"
-
-        texto_html = f"""
-        <div style='padding: 8px; background-color: #f9f9f9; border: 1px solid #ddd; border-radius: 6px; margin-bottom: 6px;'>
-            <span style='font-weight: bold'>{texto_copia} - Total: {valor_formatado}</span>
-            <br>
-            <input type='text' value='{texto_copia}' id='input_{parcelas}' readonly style='position:absolute; left:-9999px;'>
-            <button onclick="navigator.clipboard.writeText(document.getElementById('input_{parcelas}').value)">Copiar</button>
-        </div>
-        """
-        st.markdown(texto_html, unsafe_allow_html=True)
+            texto_copia = f
