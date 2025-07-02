@@ -1,4 +1,4 @@
-  c# calculadora_iclub.py
+# calculadora_iclub.py
 import streamlit as st
 
 # Tabela de taxas por parcela
@@ -75,11 +75,11 @@ st.markdown("<div class='title'>Simulador de Taxas</div>", unsafe_allow_html=Tru
 
 st.markdown("<div class='input-box'>", unsafe_allow_html=True)
 st.markdown("<p style='font-weight: bold; font-size: 16px;'>Digite o valor da compra</p>", unsafe_allow_html=True)
-"Digite o valor total da compra:", min_value=0.0, format="%.2f", value=None, placeholder="Ex: 1200.00")
+valor_total = st.number_input("Digite o valor total da compra:", min_value=0.0, format="%.2f", value=None, placeholder="Ex: 1200.00")
 valor_entrada = st.number_input("Digite o valor da entrada (opcional):", min_value=0.0, format="%.2f", value=None, placeholder="Ex: 200.00")
 st.markdown("</div>", unsafe_allow_html=True)
 
-if valor_total > 0:
+if valor_total:
     restante = max(valor_total - valor_entrada, 0)
     st.markdown("<div class='subtitle'>Opções de Pagamento</div>", unsafe_allow_html=True)
     st.markdown("""
@@ -109,8 +109,4 @@ if valor_total > 0:
             <div class='col'>{parcelas}x</div>
             <div class='col'>
                 <input class='copy-input' type='text' value='{texto_copia}' id='input_{parcelas}' readonly>
-                <button class='copy-btn' onclick="navigator.clipboard.writeText(document.getElementById('input_{parcelas}').value)">Copiar</button>
-            </div>
-            <div class='col'>{valor_formatado}</div>
-        </div>
-        """, unsafe_allow_html=True)
+                <button class='copy-btn' onclick="navigator.clipboard.writeText(document
