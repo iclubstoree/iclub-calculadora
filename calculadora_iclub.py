@@ -100,9 +100,9 @@ if valor_total is not None:
         entrada_formatada = f"R$ {(valor_entrada or 0):,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
 
         if valor_entrada > 0:
-            texto_copia = f"{entrada_formatada} + {parcela_formatada}" if parcelas == 0 else f"{entrada_formatada} + {parcelas}x {parcela_formatada}"
-        else:
-            texto_copia = f"{parcela_formatada}" if parcelas == 0 else f"{parcelas}x {parcela_formatada}"
+        texto_copia = f"{entrada_formatada} + {parcela_formatada}" if parcelas == 0 else f"{entrada_formatada} + {parcelas}x {parcela_formatada}"
+    else:
+        texto_copia = f"{parcela_formatada}" if parcelas == 0 else f"{parcelas}x {parcela_formatada}"
                 texto_copia = f"{entrada_formatada} + {parcelas}x {parcela_formatada}"
         else:
             texto_copia = f"{parcela_formatada}" if parcelas == 0 else f"{parcelas}x {parcela_formatada}"
