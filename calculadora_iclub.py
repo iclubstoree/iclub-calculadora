@@ -1,5 +1,5 @@
+# calculadora_iclub.py
 import streamlit as st
-import pyperclip
 
 # Tabela de taxas por parcela
 taxas = {
@@ -36,9 +36,12 @@ if valor_total > 0:
         else:
             texto_copia = f"{parcelas}x de {parcela_formatada}"
 
-        with st.container():
-            col1, col2 = st.columns([4, 1])
-            col1.markdown(f"<div style='padding: 8px; background-color: #f9f9f9; border: 1px solid #ddd; border-radius: 6px; margin-bottom: 6px;'>{texto_copia} - Total: {valor_formatado}</div>", unsafe_allow_html=True)
-            if col2.button(f"Copiar", key=f"botao_{parcelas}"):
-                pyperclip.copy(texto_copia)
-                st.success(f"Copiado: {texto_copia}", icon="✅")
+        texto_html = f"""
+        <div style='padding: 8px; background-color: #f9f9f9; border: 1px solid #ddd; border-radius: 6px; margin-bottom: 6px;'>
+            <span style='font-weight: bold'>{texto_copia} - Total: {valor_formatado}</span>
+            <br>
+            <input type='text' value='{texto_copia}' id='input_{parcelas}' readonly style='position:absolute; left:-9999px;'>
+            <button onclick="navigator.clipboard.writeText(document.getElementById('input_{parcelas}').value)">Copiar</button>
+        </div>
+        """
+        st.markdown(texto_html, unsafe_allow_html=True)
